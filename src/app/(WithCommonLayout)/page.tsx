@@ -1,17 +1,18 @@
-// "use client";
+/** @format */
+
+"use client";
 
 import { useUser } from "@/context/UserContext";
-import { getCurrentUser } from "@/services/AuthService";
 
-const HomePage = async () => {
-  // const user = useUser();
-  const user = await getCurrentUser()
-  console.log(user);
-  return (
-    <div>
-      <h1>Welcome To NextMart Home Page</h1>
-    </div>
-  );
+const HomePage = () => {
+   const user = useUser();
+
+   console.log(user);
+   return (
+      <div>
+         <h1>Welcome To NextMart Home Page </h1>
+      </div>
+   );
 };
 
 export default HomePage;
