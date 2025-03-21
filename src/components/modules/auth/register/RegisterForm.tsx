@@ -36,6 +36,7 @@ export default function RegisterForm() {
       const res = await registerUser(data);
       if (res?.success) {
         toast.success(res?.message);
+        console.log(res);
       } else {
         toast.error(res?.message);
       }
