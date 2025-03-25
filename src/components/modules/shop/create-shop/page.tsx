@@ -20,16 +20,14 @@ import { Textarea } from "@/components/ui/textarea";
 import NMImageUploader from "@/components/ui/core/NMImageUploader";
 import { useState } from "react";
 import ImagePreviewer from "@/components/ui/core/NMImageUploader/ImagePreviewer";
+import { createShop } from "@/services/Shop";
 
 export default function CreateShopForm() {
    const [imageFiles, setImageFiles] = useState<File[] | []>([]);
    const [imagePreview, setImagePreview] = useState<string[] | []>([]);
 
    const form = useForm();
-
-   const {
-      formState: { isSubmitting },
-   } = form;
+   const { isSubmitting } = form.formState;
 
    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
       const servicesOffered = data?.servicesOffered
@@ -41,9 +39,21 @@ export default function CreateShopForm() {
          servicesOffered: servicesOffered,
          establishedYear: Number(data?.establishedYear),
       };
-      console.log(modifiedData);
+
       try {
-      } catch (err: any) {}
+         const formData = new FormData();
+         formData.append("data", JSON.stringify(modifiedData));
+         formData.append("logo", imageFiles[0] as File);
+         const res = await createShop(formData);
+
+         console.log(res);
+
+         if (res.success) {
+            toast.success(res.message);
+         }
+      } catch (err: any) {
+         console.log(err);
+      }
    };
 
    return (

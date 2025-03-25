@@ -16,14 +16,22 @@ import { Heart, LogOut, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { logout } from "@/services/AuthService";
 import { useUser } from "@/context/UserContext";
+import { usePathname, useRouter } from "next/navigation";
+import { protectedRoutes } from "@/constants";
 
 export default function Navbar() {
 
    const {user, setIsLoading}  = useUser();
+   const pathname= usePathname();
+   const router = useRouter() 
 
    const handleLogOut = () => {
       logout();
-      setIsLoading(true)
+      setIsLoading(true);
+      if(protectedRoutes.some(route => pathname.match(route))) {
+         router.push("/");
+      }
+
    }
 
 
@@ -51,7 +59,7 @@ export default function Navbar() {
               
            { user ?  <>
              <Link href={"/create-shop"}>
-                  <Button className="rounded-full" variant="outline">
+                  <Button className="rounded-full" >
                      Create Shop
                   </Button>
                </Link>
