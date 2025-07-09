@@ -43,7 +43,7 @@ export default function LoginForm() {
       try {
          const res = await reCaptchaTokenVerification(value!);
          console.log(res.success);
-         if (res.success) {
+         if (res?.success) {
             console.log('rechap');
             setReCaptchaStatus(true);
          }
@@ -118,16 +118,16 @@ export default function LoginForm() {
                   )}
                />
 
-               <div className="flex mt-3 w-full">
+               {/* <div className="flex mt-3 w-full">
                   <ReCAPTCHA
                      sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY!}
                      onChange={handleReCaptcha}
                      className="mx-auto"
                   />
-               </div>
+               </div> */}
 
                <Button
-                  disabled={reCaptchaStatus ? false : true}
+                  // disabled={reCaptchaStatus ? false : true}
                   type="submit"
                   className="mt-5 w-full"
                >
