@@ -39,7 +39,7 @@ const data = {
       },
       {
         title: "Shop",
-        url: "/user/shop",
+        url: "/user/shop/products",
         icon: Bot,
         items: [
           {
