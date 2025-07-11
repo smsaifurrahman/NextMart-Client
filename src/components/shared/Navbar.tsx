@@ -36,7 +36,7 @@ export default function Navbar() {
 
 
    return (
-      <header className="border-b w-full">
+      <header className="border-b bg-background w-full sticky top-0 z-10">
          <div className="container flex justify-between items-center mx-auto h-16 px-3">
             <h1 className="text-2xl font-black flex items-center">
                <Logo />
@@ -74,7 +74,7 @@ export default function Navbar() {
                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
                      <DropdownMenuSeparator />
                      <DropdownMenuItem>Profile</DropdownMenuItem>
-                     <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                     <DropdownMenuItem> <Link href={`/${user?.role}/dashboard`}>Dashboard</Link></DropdownMenuItem>
                      <DropdownMenuItem>My Shop</DropdownMenuItem>
                      <DropdownMenuSeparator />
                      <DropdownMenuItem className="bg-red-400 cursor-pointer" onClick={handleLogOut}>
