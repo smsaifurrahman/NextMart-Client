@@ -150,7 +150,7 @@ const ManageProducts = ({
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Manage Products</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center mb-3 gap-2">
           <Button
             onClick={() => router.push("/user/shop/products/add-product")}
             size="sm"
