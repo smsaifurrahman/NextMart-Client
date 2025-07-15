@@ -68,6 +68,8 @@ const ProductDetails = ({ product }: { product: IProduct }) => {
         </Button>
         <Button className="w-full">Buy Now</Button>
       </div>
+
+       Tq
     </div>
   );
 };
