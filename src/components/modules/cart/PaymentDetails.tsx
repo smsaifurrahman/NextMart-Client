@@ -25,7 +25,7 @@ const PaymentDetails = () => {
             <p className="font-semibold">$110.00</p> {/* Static value */}
          </div>
          <Button
-            onClick={() => console.log("Order Now clicked")} // Placeholder function
+            // onClick={() => console.log("Order Now clicked")} // Placeholder function
             className="w-full text-xl font-semibold py-5"
          >
             Order Now

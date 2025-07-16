@@ -1,5 +1,5 @@
 /** @format */
-"use client"
+"use client";
 import {
    DropdownMenu,
    DropdownMenuContent,
@@ -20,20 +20,17 @@ import { usePathname, useRouter } from "next/navigation";
 import { protectedRoutes } from "@/constants";
 
 export default function Navbar() {
-
-   const {user, setIsLoading}  = useUser();
-   const pathname= usePathname();
-   const router = useRouter() 
+   const { user, setIsLoading } = useUser();
+   const pathname = usePathname();
+   const router = useRouter();
 
    const handleLogOut = () => {
       logout();
       setIsLoading(true);
-      if(protectedRoutes.some(route => pathname.match(route))) {
+      if (protectedRoutes.some((route) => pathname.match(route))) {
          router.push("/");
       }
-
-   }
-
+   };
 
    return (
       <header className="border-b bg-background w-full sticky top-0 z-10">
@@ -53,41 +50,55 @@ export default function Navbar() {
                <Button variant="outline" className="rounded-full p-0 size-10">
                   <Heart />
                </Button>
-               <Button variant="outline" className="rounded-full p-0 size-10">
-                  <ShoppingBag />
-               </Button>
-              
-           { user ?  <>
-             <Link href={"/create-shop"}>
-                  <Button className="rounded-full" >
-                     Create Shop
+               <Link href={"/cart"}>
+                  <Button
+                     variant="outline"
+                     className="rounded-full p-0 size-10"
+                  >
+                     <ShoppingBag />
                   </Button>
                </Link>
-               <DropdownMenu>
-                  <DropdownMenuTrigger>
-                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>User</AvatarFallback>
-                     </Avatar>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem>Profile</DropdownMenuItem>
-                     <DropdownMenuItem> <Link href={`/${user?.role}/dashboard`}>Dashboard</Link></DropdownMenuItem>
-                     <DropdownMenuItem>My Shop</DropdownMenuItem>
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem className="bg-red-400 cursor-pointer" onClick={handleLogOut}>
-                        <LogOut /> Log Out
-                     </DropdownMenuItem>
-                  </DropdownMenuContent>
-               </DropdownMenu>
-             </> :
-              (<Link href={"/login"}>
-                  <Button className="rounded-full" variant="outline">
-                     Login
-                  </Button>
-               </Link>)}
+
+               {user ? (
+                  <>
+                     <Link href={"/create-shop"}>
+                        <Button className="rounded-full">Create Shop</Button>
+                     </Link>
+                     <DropdownMenu>
+                        <DropdownMenuTrigger>
+                           <Avatar>
+                              <AvatarImage src="https://github.com/shadcn.png" />
+                              <AvatarFallback>User</AvatarFallback>
+                           </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                           <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                           <DropdownMenuSeparator />
+                           <DropdownMenuItem>Profile</DropdownMenuItem>
+                           <DropdownMenuItem>
+                              {" "}
+                              <Link href={`/${user?.role}/dashboard`}>
+                                 Dashboard
+                              </Link>
+                           </DropdownMenuItem>
+                           <DropdownMenuItem>My Shop</DropdownMenuItem>
+                           <DropdownMenuSeparator />
+                           <DropdownMenuItem
+                              className="bg-red-400 cursor-pointer"
+                              onClick={handleLogOut}
+                           >
+                              <LogOut /> Log Out
+                           </DropdownMenuItem>
+                        </DropdownMenuContent>
+                     </DropdownMenu>
+                  </>
+               ) : (
+                  <Link href={"/login"}>
+                     <Button className="rounded-full" variant="outline">
+                        Login
+                     </Button>
+                  </Link>
+               )}
             </nav>
          </div>
       </header>
