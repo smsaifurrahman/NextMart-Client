@@ -1,15 +1,18 @@
-/** @format */
+"use client"
 
 import { Button } from "@/components/ui/button";
+import { subTotalSelector } from "@/redux/features/cartSlice";
+import { useAppSelector } from "@/redux/hooks";
 
 const PaymentDetails = () => {
+   const Subtotal = useAppSelector(subTotalSelector)
    return (
       <div className="border-2 border-white bg-background brightness-105 rounded-md col-span-4 h-fit p-5">
          <h1 className="text-2xl font-bold">Payment Details</h1>
          <div className="space-y-2 mt-4">
             <div className="flex justify-between">
                <p className="text-gray-500">Subtotal</p>
-               <p className="font-semibold">$100.00</p> {/* Static value */}
+               <p className="font-semibold">${Subtotal}</p> {/* Static value */}
             </div>
             <div className="flex justify-between">
                <p className="text-gray-500">Discount</p>

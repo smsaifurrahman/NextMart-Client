@@ -52,7 +52,9 @@ const cartSlice = createSlice({
          }
       },
       removeOrderQuantity: (state, action) => {
-         state.products = state.products.filter(product => product._id != action.payload ); 
+         state.products = state.products.filter(
+            (product) => product._id != action.payload
+         );
       },
    },
 });
@@ -61,5 +63,20 @@ export const orderedProductSelector = (state: RootState) => {
    return state.cart.products;
 };
 
-export const { addProduct,incrementOrderQuantity, decrementOrderQuantity, removeOrderQuantity } = cartSlice.actions;
+export const subTotalSelector = (state: RootState) => {
+   return state.cart.products.reduce((acc, product) => {
+      if (product.offerPrice) {
+         return acc + product.offerPrice * product.orderQuantity;
+      } else {
+         return acc + product.price * product.orderQuantity;
+      }
+   }, 0);
+};
+
+export const {
+   addProduct,
+   incrementOrderQuantity,
+   decrementOrderQuantity,
+   removeOrderQuantity,
+} = cartSlice.actions;
 export default cartSlice.reducer;
