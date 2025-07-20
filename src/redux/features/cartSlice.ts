@@ -66,6 +66,11 @@ const cartSlice = createSlice({
       updateShippingAddress: (state, action) => {
          state.shippingAddress = action.payload;
       },
+      clearCart: (state) => {
+         state.products = [];
+         state.city = "";
+         state.shippingAddress = "";
+      },
    },
 });
 
@@ -79,8 +84,9 @@ export const orderSelector = (state: RootState) => {
       products: state.cart.products.map((product) => ({
          product: product._id,
          quantity: product.orderQuantity,
+         color: "White",
       })),
-      shppingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
+      shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
       paymentMethod: "Online",
    };
 };
@@ -138,5 +144,6 @@ export const {
    removeOrderQuantity,
    updateCity,
    updateShippingAddress,
+   clearCart
 } = cartSlice.actions;
 export default cartSlice.reducer;
