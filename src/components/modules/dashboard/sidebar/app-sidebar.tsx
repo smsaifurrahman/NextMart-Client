@@ -3,7 +3,7 @@
 "use client";
 
 import * as React from "react";
-import { Bot, Settings, Settings2, SquareTerminal } from "lucide-react";
+import { Bot, Settings, SquareTerminal } from "lucide-react";
 
 import {
    Sidebar,
@@ -53,6 +53,10 @@ const data = {
           {
             title: "Manage Brands",
             url: "/user/shop/brand",
+          },
+          {
+            title: "Manage Coupons",
+            url: "/user/shop/manage-coupon",
           },
         ],
       },

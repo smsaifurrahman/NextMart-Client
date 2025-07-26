@@ -12,12 +12,14 @@ interface InitialState {
    products: CartProduct[];
    city: string;
    shippingAddress: string;
+   shopId: string;
 }
 
 const initialState: InitialState = {
    products: [],
    city: "",
    shippingAddress: "",
+   shopId: "",
 };
 
 const cartSlice = createSlice({
@@ -25,6 +27,10 @@ const cartSlice = createSlice({
    initialState,
    reducers: {
       addProduct: (state, action) => {
+         if (state.products.length === 0) {
+            state.shopId = action.payload.shop._id;
+         }
+
          const productToAdd = state.products.find(
             (product) => product._id === action.payload._id
          );
@@ -91,6 +97,10 @@ export const orderSelector = (state: RootState) => {
    };
 };
 
+export const shopSelector = (state:RootState) => {
+   return state.cart.shopId;
+}
+
 // Payment
 
 export const subTotalSelector = (state: RootState) => {
@@ -144,6 +154,6 @@ export const {
    removeOrderQuantity,
    updateCity,
    updateShippingAddress,
-   clearCart
+   clearCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;
