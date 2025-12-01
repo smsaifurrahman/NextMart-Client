@@ -21,6 +21,7 @@ import { protectedRoutes } from "@/constants";
 
 export default function Navbar() {
    const { user, setIsLoading } = useUser();
+   console.log("from navbar", user);
    const pathname = usePathname();
    const router = useRouter();
 
@@ -35,7 +36,7 @@ export default function Navbar() {
    return (
       <header className="border-b bg-background w-full sticky top-0 z-10">
          <div className="container flex justify-between items-center mx-auto h-16 px-3">
-            <Link href={'/'}>
+            <Link href={"/"}>
                <h1 className="text-2xl font-black flex items-center">
                   <Logo />
                   Next Mart
@@ -61,11 +62,12 @@ export default function Navbar() {
                   </Button>
                </Link>
 
-               {user ? (
+               {user?.email ? (
                   <>
-                     <Link href={"/create-shop"}>
+                     <Link href="/create-shop">
                         <Button className="rounded-full">Create Shop</Button>
                      </Link>
+
                      <DropdownMenu>
                         <DropdownMenuTrigger>
                            <Avatar>
@@ -78,7 +80,6 @@ export default function Navbar() {
                            <DropdownMenuSeparator />
                            <DropdownMenuItem>Profile</DropdownMenuItem>
                            <DropdownMenuItem>
-                              {" "}
                               <Link href={`/${user?.role}/dashboard`}>
                                  Dashboard
                               </Link>
@@ -86,16 +87,17 @@ export default function Navbar() {
                            <DropdownMenuItem>My Shop</DropdownMenuItem>
                            <DropdownMenuSeparator />
                            <DropdownMenuItem
-                              className="bg-red-400 cursor-pointer"
+                              className="bg-red-500 cursor-pointer"
                               onClick={handleLogOut}
                            >
-                              <LogOut /> Log Out
+                              <LogOut />
+                              <span>Log Out</span>
                            </DropdownMenuItem>
                         </DropdownMenuContent>
                      </DropdownMenu>
                   </>
                ) : (
-                  <Link href={"/login"}>
+                  <Link href="/login">
                      <Button className="rounded-full" variant="outline">
                         Login
                      </Button>

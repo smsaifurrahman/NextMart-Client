@@ -1,8 +1,9 @@
 /** @format */
 
 import { IProduct } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { addCoupon } from "@/services/Cart";
 
 export interface CartProduct extends IProduct {
    orderQuantity: number;
@@ -13,6 +14,12 @@ interface InitialState {
    city: string;
    shippingAddress: string;
    shopId: string;
+   coupon: {
+      code: string;
+      discountAmount: number;
+      isLoading: boolean;
+      error: string;
+   };
 }
 
 const initialState: InitialState = {
@@ -20,7 +27,39 @@ const initialState: InitialState = {
    city: "",
    shippingAddress: "",
    shopId: "",
+   coupon: {
+      code: "",
+      discountAmount: 0,
+      isLoading: false,
+      error: "",
+   },
 };
+
+export const fetchCoupon = createAsyncThunk(
+   "cart/fetchCoupon",
+   async ({
+      couponCode,
+      subTotal,
+      shopId,
+   }: {
+      couponCode: string;
+      subTotal: number;
+      shopId: string;
+   }) => {
+      try {
+         const res = await addCoupon(couponCode, subTotal, shopId);
+         console.log(res, "from slice");
+
+         if (!res.success) {
+            throw new Error(res.message);
+         }
+
+         return res;
+      } catch (err: any) {
+         throw new Error(err.message);
+      }
+   }
+);
 
 const cartSlice = createSlice({
    name: "cart",
@@ -78,6 +117,24 @@ const cartSlice = createSlice({
          state.shippingAddress = "";
       },
    },
+   extraReducers: (builder) => {
+      builder.addCase(fetchCoupon.pending, (state) => {
+         state.coupon.isLoading = true;
+         state.coupon.error = "";
+      });
+      builder.addCase(fetchCoupon.rejected, (state, action) => {
+         state.coupon.isLoading = false;
+         state.coupon.error = action.error.message as string;
+         state.coupon.code = "";
+         state.coupon.discountAmount = 0;
+      });
+      builder.addCase(fetchCoupon.fulfilled, (state, action) => {
+         state.coupon.isLoading = false;
+         state.coupon.error = "";
+         state.coupon.code = action.payload.data.coupon.code;
+         state.coupon.discountAmount = action.payload.data.discountAmount;
+      });
+   },
 });
 
 //  Products
@@ -97,9 +154,9 @@ export const orderSelector = (state: RootState) => {
    };
 };
 
-export const shopSelector = (state:RootState) => {
+export const shopSelector = (state: RootState) => {
    return state.cart.shopId;
-}
+};
 
 // Payment
 
@@ -136,6 +193,10 @@ export const grandTotalSelector = (state: RootState) => {
    const shippingCost = shippingCostSelector(state);
 
    return subTotal + shippingCost;
+};
+
+export const couponSelector = (state: RootState) => {
+   return state.cart.coupon;
 };
 
 // Address

@@ -42,7 +42,6 @@ export default function LoginForm() {
       console.log("from recapcha", value);
       try {
          const res = await reCaptchaTokenVerification(value!);
-         console.log(res.success);
          if (res?.success) {
             console.log('rechap');
             setReCaptchaStatus(true);
@@ -60,7 +59,7 @@ export default function LoginForm() {
             if (redirect) {
                router.push(redirect);
             } else {
-               router.push("/profile");
+               router.push("/");
             }
          } else {
             toast.error(res?.message);
