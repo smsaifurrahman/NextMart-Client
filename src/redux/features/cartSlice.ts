@@ -48,7 +48,7 @@ export const fetchCoupon = createAsyncThunk(
    }) => {
       try {
          const res = await addCoupon(couponCode, subTotal, shopId);
-         console.log(res, "from slice");
+         
 
          if (!res.success) {
             throw new Error(res.message);
@@ -100,7 +100,12 @@ const cartSlice = createSlice({
             return;
          }
       },
-      removeOrderQuantity: (state, action) => {
+      // removeOrderQuantity: (state, action) => {
+      //    state.products = state.products.filter(
+      //       (product) => product._id != action.payload
+      //    );
+      // },
+      removeProduct: (state, action) => {
          state.products = state.products.filter(
             (product) => product._id != action.payload
          );
@@ -149,6 +154,7 @@ export const orderSelector = (state: RootState) => {
          quantity: product.orderQuantity,
          color: "White",
       })),
+     
       shippingAddress: `${state.cart.shippingAddress} - ${state.cart.city}`,
       paymentMethod: "Online",
    };
@@ -191,12 +197,16 @@ export const shippingCostSelector = (state: RootState) => {
 export const grandTotalSelector = (state: RootState) => {
    const subTotal = subTotalSelector(state);
    const shippingCost = shippingCostSelector(state);
-
-   return subTotal + shippingCost;
+   const discountAmount = discountAmountSelector(state);
+   return subTotal - discountAmount + shippingCost;
 };
 
 export const couponSelector = (state: RootState) => {
    return state.cart.coupon;
+};
+
+export const discountAmountSelector = (state: RootState) => {
+   return state.cart.coupon.discountAmount;
 };
 
 // Address
@@ -212,7 +222,8 @@ export const {
    addProduct,
    incrementOrderQuantity,
    decrementOrderQuantity,
-   removeOrderQuantity,
+   // removeOrderQuantity,
+   removeProduct,
    updateCity,
    updateShippingAddress,
    clearCart,

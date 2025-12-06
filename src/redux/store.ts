@@ -12,7 +12,7 @@ import {
    REGISTER,
 } from "redux-persist";
 import storage from "./storage";
-
+import { couponMiddleware } from "./middlewares/coupon.middleware";
 
 const persistOptions = {
    key: "cart",
@@ -27,7 +27,7 @@ export const makeStore = () => {
          cart: cartReducer,
          // cart: persistedCart,
       },
-      middleware: (getDefaultMiddlewares) =>
+      middleware: (getDefaultMiddlewares: any) =>
          getDefaultMiddlewares({
             serializableCheck: {
                ignoredActions: [
@@ -39,7 +39,7 @@ export const makeStore = () => {
                   REGISTER,
                ],
             },
-         }),
+         }).concat(couponMiddleware),
    });
 };
 
