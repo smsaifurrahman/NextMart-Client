@@ -21,7 +21,6 @@ import { protectedRoutes } from "@/constants";
 
 export default function Navbar() {
    const { user, setIsLoading } = useUser();
-   console.log("from navbar", user);
    const pathname = usePathname();
    const router = useRouter();
 
